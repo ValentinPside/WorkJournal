@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="305.0" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainPageController">
+    <children>
+      <GridPane prefHeight="230.0" prefWidth="320.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="75.0" prefWidth="160.0" text="Смена" textAlignment="JUSTIFY" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="82.0" prefWidth="325.0" text="Дата" GridPane.rowIndex="1" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="133.0" prefWidth="357.0" text="Наработка (кубометры)" GridPane.rowIndex="2" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="63.0" prefWidth="160.0" text="Наработка (часы)" GridPane.rowIndex="3" />
+            <DatePicker fx:id="todayDate" prefHeight="58.0" prefWidth="184.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="shiftName" prefHeight="138.0" prefWidth="296.0" GridPane.columnIndex="1" />
+            <TextField fx:id="waterValue" alignment="CENTER" prefHeight="103.0" prefWidth="334.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="hoursValue" alignment="CENTER" prefHeight="113.0" prefWidth="402.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+      <Button fx:id="saveBut" layoutX="101.0" layoutY="248.0" mnemonicParsing="false" onAction="#saveShiftDate" prefHeight="43.0" prefWidth="119.0" text="Сохранить" />
+   </children>
+</AnchorPane>
