@@ -20,6 +20,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import models.resurces.Reader;
+import models.resurces.Writer;
 import stages.ExceptionStage;
 
 /**
@@ -43,17 +45,18 @@ public class MainPageController implements Initializable {
     private Button saveBut;
     
     @FXML
-    private void saveShiftDate(javafx.event.ActionEvent event) throws Exception{
+    private void saveShiftDate(javafx.event.ActionEvent event) throws IOException{
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String today = dateFormat.format(date);
-        if(checkShiftDate(todayDate, today, waterValue, hoursValue)){
+        String shift = shiftName.getValue();
+        if(checkShiftDate(shift, todayDate, today, waterValue, hoursValue)){
             LocalDate localDate = todayDate.getValue();
             String shiftDay = String.valueOf(localDate);
             Integer currentWaterValue = Integer.parseInt(waterValue.getText().replaceAll("[^\\d]", ""));
             Integer currentHoursValue = Integer.parseInt(hoursValue.getText().replaceAll("[^\\d]", ""));
-            System.out.println(today + "\n" + shiftDay);
-            System.out.println(currentWaterValue + " " + currentHoursValue);
+            saveShiftValues(shift, shiftDay, currentWaterValue, currentHoursValue);
+            new Reader("Г");
         }
     }
     
@@ -63,7 +66,18 @@ public class MainPageController implements Initializable {
         shiftName.setItems(list);
     }
     
-    private boolean checkShiftDate(DatePicker todayDate, String today, TextField waterValue, TextField hoursValue) throws IOException{
+    private boolean saveShiftValues(String shift, String shiftDay, Integer currentWaterValue, Integer currentHoursValue) throws IOException{
+        String record = shift + "/" + shiftDay + "/" + currentWaterValue + "/" + currentHoursValue + "\n";
+        Writer writer = new Writer(shift, record);
+        return true;
+    }
+    
+    private boolean checkShiftDate(String shift, DatePicker todayDate, String today, TextField waterValue, TextField hoursValue) throws IOException{
+        if(shift.isEmpty()){
+            new ExceptionStage("Смена не выбрана!");
+            return false;
+        }
+        
         if(todayDate.getValue() == null){
             new ExceptionStage("Дата не выбрана!");
             return false;

@@ -5,7 +5,7 @@
  */
 package models;
 
-import java.util.Date;
+import java.util.HashMap;
 
 /**
  *
@@ -13,15 +13,11 @@ import java.util.Date;
  */
 public class Shift {
     private String shiftName;
-    private Date shiftDate;
-    private int waterValue;
-    private int hoursValue;
+    private HashMap records;
+    
 
-    public Shift(String shiftName, Date shiftDate, int waterValue, int hoursValue) {
+    public Shift(String shiftName) {
         setShiftName(shiftName);
-        setShiftDate(shiftDate);
-        setWaterValue(waterValue);
-        setHoursValue(hoursValue);
     }
 
     public String getShiftName() {
@@ -30,29 +26,5 @@ public class Shift {
 
     public void setShiftName(String shiftName){
         this.shiftName = shiftName;
-    }
-
-    public Date getShiftDate() {
-        return shiftDate;
-    }
-
-    public void setShiftDate(Date shiftDate) {
-        this.shiftDate = shiftDate;
-    }
-
-    public int getWaterValue() {
-        return waterValue;
-    }
-
-    public void setWaterValue(int waterValue) {
-        this.waterValue = waterValue;
-    }
-
-    public int getHoursValue() {
-        return hoursValue;
-    }
-
-    public void setHoursValue(int hoursValue) {
-        this.hoursValue = hoursValue;
     }
 }
