@@ -12,7 +12,7 @@ import java.io.IOException;
 
 /**
  *
- * @author user
+ * @author Valentin
  */
 public class Writer {
 

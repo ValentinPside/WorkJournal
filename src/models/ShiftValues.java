@@ -7,7 +7,7 @@ package models;
 
 /**
  *
- * @author user
+ * @author Valentin
  */
 public class ShiftValues {
     

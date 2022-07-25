@@ -1,35 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="305.0" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainPageController">
+<AnchorPane id="AnchorPane" prefHeight="322.0" prefWidth="538.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="controllers.MainPageController">
     <children>
-      <GridPane prefHeight="230.0" prefWidth="320.0">
+      <GridPane layoutY="6.0" prefHeight="313.0" prefWidth="535.0">
         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="75.0" prefWidth="160.0" text="Смена" textAlignment="JUSTIFY" />
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="82.0" prefWidth="325.0" text="Дата" GridPane.rowIndex="1" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="82.0" prefWidth="325.0" text="Дата" GridPane.rowIndex="5" />
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="133.0" prefWidth="357.0" text="Наработка (кубометры)" GridPane.rowIndex="2" />
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="63.0" prefWidth="160.0" text="Наработка (часы)" GridPane.rowIndex="3" />
-            <DatePicker fx:id="todayDate" prefHeight="58.0" prefWidth="184.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <DatePicker fx:id="todayDate" prefHeight="58.0" prefWidth="184.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <ComboBox fx:id="shiftName" prefHeight="138.0" prefWidth="296.0" GridPane.columnIndex="1" />
-            <TextField fx:id="waterValue" alignment="CENTER" prefHeight="103.0" prefWidth="334.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="hoursValue" alignment="CENTER" prefHeight="113.0" prefWidth="402.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="waterValue1" alignment="CENTER" prefHeight="103.0" prefWidth="334.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="hoursValue1" alignment="CENTER" prefHeight="113.0" prefWidth="402.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="waterValue2" prefHeight="63.0" prefWidth="145.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="hoursValue2" prefHeight="136.0" prefWidth="219.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <ComboBox fx:id="shiftVariant" prefHeight="92.0" prefWidth="235.0" GridPane.columnIndex="2" />
+            <ImageView fitHeight="58.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Button fx:id="saveBut" mnemonicParsing="false" onAction="#saveShiftDate" prefHeight="71.0" prefWidth="204.0" text="Сохранить" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="95.0" prefWidth="309.0" text="Начало смены" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="103.0" prefWidth="335.0" text="Конец смены" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="84.0" prefWidth="348.0" text="Уровень в баке" GridPane.rowIndex="4" />
+            <TextField fx:id="cisternValue1" prefHeight="150.0" prefWidth="278.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="cisternValue2" prefHeight="86.0" prefWidth="239.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
          </children>
       </GridPane>
-      <Button fx:id="saveBut" layoutX="101.0" layoutY="248.0" mnemonicParsing="false" onAction="#saveShiftDate" prefHeight="43.0" prefWidth="119.0" text="Сохранить" />
    </children>
 </AnchorPane>

@@ -20,7 +20,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import models.resurces.Reader;
 import models.resurces.Writer;
 import stages.ExceptionStage;
 
@@ -33,48 +32,92 @@ public class MainPageController implements Initializable {
     private ComboBox<String> shiftName;
     
     @FXML
+    private ComboBox<String> shiftVariant;
+    
+    @FXML
     private DatePicker todayDate;
     
     @FXML
-    private TextField waterValue;
+    private TextField waterValue1;
     
     @FXML
-    private TextField hoursValue;
+    private TextField waterValue2;
+    
+    @FXML
+    private TextField hoursValue1;
+    
+    @FXML
+    private TextField hoursValue2;
+    
+    @FXML
+    private TextField cisternValue1;
+    
+    @FXML
+    private TextField cisternValue2;
 
     @FXML
     private Button saveBut;
     
     @FXML
-    private void saveShiftDate(javafx.event.ActionEvent event) throws IOException{
+    private void saveShiftDate(javafx.event.ActionEvent event) throws Exception{
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String today = dateFormat.format(date);
-        String shift = shiftName.getValue();
-        if(checkShiftDate(shift, todayDate, today, waterValue, hoursValue)){
+        if(checkShiftDate(shiftName, shiftVariant, todayDate, today, waterValue1, waterValue2, hoursValue1, hoursValue2,
+        cisternValue1, cisternValue2)){
+            String currentshiftName = shiftName.getValue();
+            String currentshiftVariant = shiftVariant.getValue();
             LocalDate localDate = todayDate.getValue();
             String shiftDay = String.valueOf(localDate);
-            Integer currentWaterValue = Integer.parseInt(waterValue.getText().replaceAll("[^\\d]", ""));
-            Integer currentHoursValue = Integer.parseInt(hoursValue.getText().replaceAll("[^\\d]", ""));
-            saveShiftValues(shift, shiftDay, currentWaterValue, currentHoursValue);
-            new Reader("Г");
+            Integer currentWaterValue1 = Integer.parseInt(waterValue1.getText().replaceAll("[^\\d]", ""));
+            Integer currentWaterValue2 = Integer.parseInt(waterValue2.getText().replaceAll("[^\\d]", ""));
+            Integer currentHoursValue1 = Integer.parseInt(hoursValue1.getText().replaceAll("[^\\d]", ""));
+            Integer currentHoursValue2 = Integer.parseInt(hoursValue2.getText().replaceAll("[^\\d]", ""));
+            Integer currentCisternValue1 = Integer.parseInt(cisternValue1.getText().replaceAll("[^\\d]", ""));
+            Integer currentCisternValue2 = Integer.parseInt(cisternValue2.getText().replaceAll("[^\\d]", ""));
+            Integer waterValue = currentWaterValue2 - currentWaterValue1;
+            Integer hourseValue = currentHoursValue2 - currentHoursValue1;
+            Integer expenditure =  expenditure(currentCisternValue2, currentCisternValue1,
+            currentWaterValue2, currentWaterValue1);
+            String record = "Дата " + shiftDay + 
+                    "Наработка кубометров на начало смены " + currentWaterValue1 +
+                    "Наработка кубометров на конец смены " + currentWaterValue2 + 
+                    "Наработка часов на начало смены " + currentHoursValue1 +
+                    "Наработка часов на конец смены " + currentHoursValue2 +
+                    "Уровень в баке на начало смены " + currentHoursValue2 +
+                    "Уровень в баке на конец смены " + currentHoursValue2;
+            new Writer(currentshiftName, record);
+            System.out.println("Дата " + shiftDay);
+            System.out.println("Смена " + currentshiftName + "\n" + currentshiftVariant);
+            System.out.println("Наработка " +currentWaterValue1 + " " + currentWaterValue2);
+            System.out.println("Часы " +currentHoursValue1 + " " + currentHoursValue2);
+            System.out.println("Бак " +currentCisternValue1 + " " + currentCisternValue2);
+            System.out.println("Наработка кубов " + waterValue);
+            System.out.println("Наработка часов " + hourseValue);
+            System.out.println("Взято воды " + expenditure);
         }
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ObservableList<String> list = FXCollections.observableArrayList("А", "Б", "В", "Г");
-        shiftName.setItems(list);
+        ObservableList<String> list1 = FXCollections.observableArrayList("А", "Б", "В", "Г");
+        shiftName.setItems(list1);
+        
+        ObservableList<String> list2 = FXCollections.observableArrayList("Дневная смена", "Ночная смена");
+        shiftVariant.setItems(list2);
     }
     
-    private boolean saveShiftValues(String shift, String shiftDay, Integer currentWaterValue, Integer currentHoursValue) throws IOException{
-        String record = shift + "/" + shiftDay + "/" + currentWaterValue + "/" + currentHoursValue + "\n";
-        Writer writer = new Writer(shift, record);
-        return true;
-    }
-    
-    private boolean checkShiftDate(String shift, DatePicker todayDate, String today, TextField waterValue, TextField hoursValue) throws IOException{
-        if(shift.isEmpty()){
+    private boolean checkShiftDate(ComboBox<String> shiftName, ComboBox<String> shiftVariant, DatePicker todayDate, 
+            String today, TextField waterValue1, TextField waterValue2, TextField hoursValue1, TextField hoursValue2,
+            TextField cisternValue1, TextField cisternValue2) throws IOException{
+        
+        if(shiftName.getValue() == null){
             new ExceptionStage("Смена не выбрана!");
+            return false;
+        }
+        
+        if(shiftVariant.getValue() == null){
+            new ExceptionStage("Тип смены не выбран!");
             return false;
         }
         
@@ -91,29 +134,72 @@ public class MainPageController implements Initializable {
             return false;
         }
         
-        if(waterValue.getText().replaceAll("[^\\d]", "").isEmpty()){
-            new ExceptionStage("Наработка по кубометрам должна быть указана!");
+        if(waterValue1.getText().replaceAll("[^\\d]", "").isEmpty() 
+                || waterValue2.getText().replaceAll("[^\\d]", "").isEmpty()){
+            new ExceptionStage("Наработка по кубометрам на начало и конец\nдолжны быть указаны!");
             return false;
         }
         
-        Integer currentWaterValue = Integer.parseInt(waterValue.getText().replaceAll("[^\\d]", ""));
+        Integer currentWaterValue1 = Integer.parseInt(waterValue1.getText().replaceAll("[^\\d]", ""));
+        Integer currentWaterValue2 = Integer.parseInt(waterValue2.getText().replaceAll("[^\\d]", ""));
         
-        if(currentWaterValue < 0){
-            new ExceptionStage("Наработка по кубометрам не может быть отрицательной!");
+        if(currentWaterValue2 < currentWaterValue1){
+            new ExceptionStage("Наработка по кубометрам\nне может быть отрицательной!");
             return false;
         }
         
-        if(hoursValue.getText().replaceAll("[^\\d]", "").isEmpty()){
-            new ExceptionStage("Наработка по часам должна быть указана!");
+        if(hoursValue1.getText().replaceAll("[^\\d]", "").isEmpty() 
+                || hoursValue2.getText().replaceAll("[^\\d]", "").isEmpty()){
+            new ExceptionStage("Наработка по часам на начало и конец\nдолжны быть указаны!");
             return false;
         }
         
-        Integer currentHoursValue = Integer.parseInt(hoursValue.getText().replaceAll("[^\\d]", ""));
+        Integer currentHoursValue1 = Integer.parseInt(hoursValue1.getText().replaceAll("[^\\d]", ""));
+        Integer currentHoursValue2 = Integer.parseInt(hoursValue2.getText().replaceAll("[^\\d]", ""));
         
-        if(currentHoursValue < 0){
-            new ExceptionStage("Наработка по часам не может быть отрицательной!");
+        if(currentHoursValue2 < currentHoursValue1){
+            new ExceptionStage("Наработка по часам\nне может быть отрицательной!");
             return false;
         }
+        
+        if(cisternValue1.getText().replaceAll("[^\\d]", "").isEmpty() 
+                || cisternValue2.getText().replaceAll("[^\\d]", "").isEmpty()){
+            new ExceptionStage("Уровень в баке на начало и конец\nдолжны быть указаны!");
+            return false;
+        }
+        
+        Integer currentCisternValue1 = Integer.parseInt(cisternValue1.getText().replaceAll("[^\\d]", ""));
+        Integer currentCisternValue2 = Integer.parseInt(cisternValue2.getText().replaceAll("[^\\d]", ""));
+        
+        if(currentCisternValue1 < 0 || currentCisternValue2 < 0){
+            new ExceptionStage("Уровень в баке\nне может быть отрицательным!");
+            return false;
+        }
+        
         return true;
+    }
+    
+    private int expenditure(int currentCisternValue2, int currentCisternValue1,
+            int currentWaterValue2, int currentWaterValue1){
+        
+        int expenditure = 0;
+        
+        if(currentCisternValue2 > currentCisternValue1){
+            expenditure = (currentWaterValue2 - currentWaterValue1) - (currentCisternValue2 - currentCisternValue1);
+        }
+        
+        if(currentCisternValue2 < currentCisternValue1){
+            expenditure =  (currentCisternValue1 - currentCisternValue2) + (currentWaterValue2 - currentWaterValue1);
+        }
+        
+        if(currentCisternValue2 == currentCisternValue1){
+            expenditure =  currentWaterValue2 - currentWaterValue1;
+        }
+        
+        if(expenditure < 0 ){
+            expenditure = 0;
+        }
+        
+        return expenditure;
     }
 }
