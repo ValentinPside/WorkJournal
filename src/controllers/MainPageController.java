@@ -22,6 +22,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import models.resurces.Writer;
 import stages.ExceptionStage;
+import stages.SuccessStage;
 
 /**
  *
@@ -79,22 +80,19 @@ public class MainPageController implements Initializable {
             Integer hourseValue = currentHoursValue2 - currentHoursValue1;
             Integer expenditure =  expenditure(currentCisternValue2, currentCisternValue1,
             currentWaterValue2, currentWaterValue1);
-            String record = "Дата " + shiftDay + 
-                    "Наработка кубометров на начало смены " + currentWaterValue1 +
-                    "Наработка кубометров на конец смены " + currentWaterValue2 + 
-                    "Наработка часов на начало смены " + currentHoursValue1 +
-                    "Наработка часов на конец смены " + currentHoursValue2 +
-                    "Уровень в баке на начало смены " + currentHoursValue2 +
-                    "Уровень в баке на конец смены " + currentHoursValue2;
+            String record = "Дата = " + shiftDay + "; " + 
+                    "Наработано кубометров = " + waterValue + "; " +
+                    "Наработано часов = " + hourseValue + "; " +
+                    "Выдано воды = " + expenditure + "; " +
+                    "Наработка кубометров на начало смены = " + currentWaterValue1 + "; " +
+                    "Наработка кубометров на конец смены = " + currentWaterValue2 + "; " + 
+                    "Наработка часов на начало смены = " + currentHoursValue1 + "; " +
+                    "Наработка часов на конец смены = " + currentHoursValue2 + "; " +
+                    "Уровень в баке на начало смены = " + currentHoursValue2 + "; " +
+                    "Уровень в баке на конец смены = " + currentHoursValue2 + "; " + "\n" + 
+                    shiftDay + "/" + waterValue + "/" + hourseValue + "/" + expenditure + "/" + "\n";
             new Writer(currentshiftName, record);
-            System.out.println("Дата " + shiftDay);
-            System.out.println("Смена " + currentshiftName + "\n" + currentshiftVariant);
-            System.out.println("Наработка " +currentWaterValue1 + " " + currentWaterValue2);
-            System.out.println("Часы " +currentHoursValue1 + " " + currentHoursValue2);
-            System.out.println("Бак " +currentCisternValue1 + " " + currentCisternValue2);
-            System.out.println("Наработка кубов " + waterValue);
-            System.out.println("Наработка часов " + hourseValue);
-            System.out.println("Взято воды " + expenditure);
+            new SuccessStage("Запись успешно сохранена");
         }
     }
     

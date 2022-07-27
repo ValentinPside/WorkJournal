@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import models.Shift;
 
 /**
  *
@@ -16,16 +17,23 @@ import java.io.IOException;
  */
 public class Reader {
 
-    public Reader(String shift) throws IOException {
-        File file = new File("C:/Program Files/Shifts/" + shift + ".txt");
+    public Reader(Shift shift) throws IOException {
+        File file = new File("C:/Program Files/Shifts/" + shift.getShiftName() + ".txt");
         if(!file.exists()){
             file.createNewFile();
         }
-        FileReader fw = new FileReader("C:/Program Files/Shifts/" + shift + ".txt");
+        FileReader fw = new FileReader("C:/Program Files/Shifts/" + shift.getShiftName() + ".txt");
         BufferedReader br = new BufferedReader(fw);
+        
         String line = br.readLine();
         while(line != null){
-            System.out.println(line);
+            if(!line.contains("Дата")){
+                String[] values = line.split("/");
+                shift.getDate().add(values[0]);
+                shift.getWater().add(Integer.parseInt(values[1]));
+                shift.getHours().add(Integer.parseInt(values[2]));
+                shift.getExpenditure().add(Integer.parseInt(values[3]));
+            }
             line = br.readLine();
         }
         br.close();
