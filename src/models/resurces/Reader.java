@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import models.Shift;
 
 /**
@@ -29,7 +30,7 @@ public class Reader {
         while(line != null){
             if(!line.contains("Дата")){
                 String[] values = line.split("/");
-                shift.getDate().add(values[0]);
+                shift.getDate().add(LocalDate.parse(values[0]));
                 shift.getWater().add(Integer.parseInt(values[1]));
                 shift.getHours().add(Integer.parseInt(values[2]));
                 shift.getExpenditure().add(Integer.parseInt(values[3]));

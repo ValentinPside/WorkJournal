@@ -51,9 +51,7 @@ public class ReportController implements Initializable {
         if(checkShiftDate(shiftName, date1, date2)){
             String currentShiftName = shiftName.getValue();
             LocalDate localDate1 = date1.getValue();
-            String reportDay1 = String.valueOf(localDate1);
             LocalDate localDate2 = date2.getValue();
-            String reportDay2 = String.valueOf(localDate2);
             if(currentShiftName.equals("Все смены")){
                 Shift a = new Shift("А");
                 new Reader(a);
@@ -64,13 +62,13 @@ public class ReportController implements Initializable {
                 Shift d = new Shift("Г");
                 new Reader(d);
                 Shift[] shifts = new Shift[]{a, b ,c ,d};
-                reportWriter(shifts, reportDay1, reportDay2);
+                reportWriter(shifts, localDate1, localDate2);
                 new SuccessStage("Отчёт успешно составлен!");
             }
             else{
                 Shift shift = new Shift(currentShiftName);
                 new Reader(shift);
-                shiftReportWriter(shift, reportDay1, reportDay2);
+                shiftReportWriter(shift, localDate1, localDate2);
                 new SuccessStage("Отчёт успешно составлен!");
             }
         }
@@ -88,7 +86,7 @@ public class ReportController implements Initializable {
             return false;
         }
         
-        if(date2.getValue().isAfter(date1.getValue())){
+        if(date1.getValue().isAfter(date2.getValue())){
             new ExceptionStage("Даты выбраны неверно!");
             return false;
         }
@@ -96,7 +94,9 @@ public class ReportController implements Initializable {
         return true;
     }
     
-    private boolean reportWriter(Shift[] shifts, String reportDay1, String reportDay2) throws IOException {
+    private boolean reportWriter(Shift[] shifts, LocalDate localDate1, LocalDate localDate2) throws IOException {
+        String reportDay1 = String.valueOf(localDate1);
+        String reportDay2 = String.valueOf(localDate2);
         File file = new File("C:/Program Files/Shifts/" + "Отчёт ВВЧ с " + reportDay1 + "по " + reportDay2 + ".txt");
         if(!file.exists()){
             file.createNewFile();
@@ -107,13 +107,19 @@ public class ReportController implements Initializable {
         int hoursValue = 0;
         int expenditureValue = 0;
         for(Shift i : shifts){
-            ArrayList<String> date = i.getDate();
+            ArrayList<LocalDate> date = i.getDate();
+                while(!date.contains(localDate1) && localDate1.isBefore(date.get(date.size() - 1))){
+                localDate1.plusDays(1);
+            }
+            while(!date.contains(localDate2) && localDate2.isAfter(localDate1)){
+                localDate2.minusDays(1);
+            }
+            if(!localDate1.isBefore(localDate2)){
+                continue;
+            }
             int index1 = date.indexOf(reportDay1);
             int index2 = date.indexOf(reportDay2);
-            if(!date.contains(reportDay1) || !date.contains(reportDay2)){
-            new ExceptionStage("Выбран несуществующий диапазон дат!");
-            return false;
-        }
+
             ArrayList<Integer> water = i.getWater();
             ArrayList<Integer> hours = i.getHours();
             ArrayList<Integer> expenditure = i.getExpenditure();
@@ -132,7 +138,9 @@ public class ReportController implements Initializable {
         return true;
     }
     
-    private boolean shiftReportWriter(Shift shift, String reportDay1, String reportDay2) throws IOException {
+    private boolean shiftReportWriter(Shift shift, LocalDate localDate1, LocalDate localDate2) throws IOException {
+        String reportDay1 = String.valueOf(localDate1);
+        String reportDay2 = String.valueOf(localDate2);
         File file = new File("C:/Program Files/Shifts/" + "Отчёт ВВЧ с " + reportDay1 + "по " + reportDay2 + ".txt");
         if(!file.exists()){
             file.createNewFile();
@@ -142,9 +150,15 @@ public class ReportController implements Initializable {
         int waterValue = 0;
         int hoursValue = 0;
         int expenditureValue = 0;
-        ArrayList<String> date = shift.getDate();
-        if(!date.contains(reportDay1) || !date.contains(reportDay2)){
-            new ExceptionStage("Выбран несуществующий диапазон дат!");
+        ArrayList<LocalDate> date = shift.getDate();
+        while(!date.contains(localDate1) && localDate1.isBefore(date.get(date.size() - 1))){
+            localDate1.plusDays(1);
+        }
+        while(!date.contains(localDate2) && localDate2.isAfter(localDate1)){
+            localDate2.minusDays(1);
+        }
+        if(!localDate1.isBefore(localDate2)){
+            new ExceptionStage("В выбранном диапазоне дат смена не работала!");
             return false;
         }
         int index1 = date.indexOf(reportDay1);

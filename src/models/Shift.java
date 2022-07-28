@@ -6,7 +6,9 @@
 package models;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 public class Shift {
     
     private String shiftName;
-    private ArrayList<String> date;
+    private ArrayList<LocalDate> date;
     private ArrayList<Integer> water;
     private ArrayList<Integer> hours;
     private ArrayList<Integer> expenditure;
@@ -24,11 +26,11 @@ public class Shift {
         setShiftName(shiftName);
     }
 
-    public ArrayList<String> getDate() {
+    public ArrayList<LocalDate> getDate() {
         return date;
     }
 
-    public void setDate(ArrayList<String> date) {
+    public void setDate(ArrayList<LocalDate> date) {
         this.date = date;
     }
 
