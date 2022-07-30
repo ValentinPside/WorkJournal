@@ -8,7 +8,6 @@ package models;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
@@ -17,10 +16,10 @@ import java.util.Date;
 public class Shift {
     
     private String shiftName;
-    private ArrayList<LocalDate> date;
-    private ArrayList<Integer> water;
-    private ArrayList<Integer> hours;
-    private ArrayList<Integer> expenditure;
+    private ArrayList<LocalDate> date = new ArrayList<>();
+    private ArrayList<Integer> water = new ArrayList<>();
+    private ArrayList<Integer> hours = new ArrayList<>();
+    private ArrayList<Integer> expenditure = new ArrayList<>();
     
     public Shift(String shiftName) throws IOException {
         setShiftName(shiftName);

@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import models.Shift;
 
 /**
@@ -23,14 +25,19 @@ public class Reader {
         if(!file.exists()){
             file.createNewFile();
         }
-        FileReader fw = new FileReader("C:/Program Files/Shifts/" + shift.getShiftName() + ".txt");
-        BufferedReader br = new BufferedReader(fw);
-        
+        FileReader fr = new FileReader("C:/Program Files/Shifts/" + shift.getShiftName() + ".txt");
+        BufferedReader br = new BufferedReader(fr);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String line = br.readLine();
         while(line != null){
             if(!line.contains("Дата")){
                 String[] values = line.split("/");
-                shift.getDate().add(LocalDate.parse(values[0]));
+                for(String i : values){
+                    System.out.println(i);
+                }
+                LocalDate ld = LocalDate.parse(values[0], dtf);
+                ArrayList b = shift.getDate();
+                b.add(ld);
                 shift.getWater().add(Integer.parseInt(values[1]));
                 shift.getHours().add(Integer.parseInt(values[2]));
                 shift.getExpenditure().add(Integer.parseInt(values[3]));
@@ -38,6 +45,6 @@ public class Reader {
             line = br.readLine();
         }
         br.close();
-        fw.close();
+        fr.close();
     } 
 }

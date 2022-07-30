@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -97,28 +98,32 @@ public class ReportController implements Initializable {
     private boolean reportWriter(Shift[] shifts, LocalDate localDate1, LocalDate localDate2) throws IOException {
         String reportDay1 = String.valueOf(localDate1);
         String reportDay2 = String.valueOf(localDate2);
-        File file = new File("C:/Program Files/Shifts/" + "Отчёт ВВЧ с " + reportDay1 + "по " + reportDay2 + ".txt");
+        File file = new File("C:/Program Files/Shifts/" + "Отчёт ВВЧ с " + reportDay1 + " по " + reportDay2 + ".txt");
         if(!file.exists()){
             file.createNewFile();
         }
-        FileWriter fw = new FileWriter("C:/Program Files/Shifts/" + "Отчёт ВВЧ с " + reportDay1 + "по " + reportDay2 + ".txt", true);
+        FileWriter fw = new FileWriter("C:/Program Files/Shifts/" + "Отчёт ВВЧ с " + reportDay1 + " по " + reportDay2 + ".txt", true);
         BufferedWriter bf = new BufferedWriter(fw);
         int waterValue = 0;
         int hoursValue = 0;
         int expenditureValue = 0;
         for(Shift i : shifts){
             ArrayList<LocalDate> date = i.getDate();
+            if(!date.contains(localDate1)){
                 while(!date.contains(localDate1) && localDate1.isBefore(date.get(date.size() - 1))){
-                localDate1.plusDays(1);
+                    localDate1 = localDate1.plusDays(1);
+                }
             }
-            while(!date.contains(localDate2) && localDate2.isAfter(localDate1)){
-                localDate2.minusDays(1);
+            if(!date.contains(localDate2)){
+                while(!date.contains(localDate2) && localDate2.isAfter(localDate1)){
+                    localDate2 = localDate2.minusDays(1);
+                }
             }
             if(!localDate1.isBefore(localDate2)){
                 continue;
             }
-            int index1 = date.indexOf(reportDay1);
-            int index2 = date.indexOf(reportDay2);
+            int index1 = date.indexOf(localDate1);
+            int index2 = date.indexOf(localDate2);
 
             ArrayList<Integer> water = i.getWater();
             ArrayList<Integer> hours = i.getHours();
@@ -129,7 +134,7 @@ public class ReportController implements Initializable {
                 expenditureValue = expenditureValue + expenditure.get(a);
             }
         }
-        bf.write("Отчёт работы ВВЧ с " + reportDay1 + "по " + reportDay2 + "\n" +
+        bf.write("Отчёт работы ВВЧ с " + reportDay1 + " по " + reportDay2 + "\n" +
                 "Наработка по кубометрам составила " + waterValue + " метров кубических;\n" + 
                 "Наработка по часам составила " + hoursValue + " часов;\n" +
                 "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
@@ -141,28 +146,35 @@ public class ReportController implements Initializable {
     private boolean shiftReportWriter(Shift shift, LocalDate localDate1, LocalDate localDate2) throws IOException {
         String reportDay1 = String.valueOf(localDate1);
         String reportDay2 = String.valueOf(localDate2);
-        File file = new File("C:/Program Files/Shifts/" + "Отчёт ВВЧ с " + reportDay1 + "по " + reportDay2 + ".txt");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        File file = new File("C:/Program Files/Shifts/" + "Отчёт работы смены " +  shift.getShiftName() +
+                " с " + reportDay1 + " по " + reportDay2 + ".txt");
         if(!file.exists()){
             file.createNewFile();
         }
-        FileWriter fw = new FileWriter("C:/Program Files/Shifts/" + "Отчёт ВВЧ с " + reportDay1 + "по " + reportDay2 + ".txt", true);
+        FileWriter fw = new FileWriter("C:/Program Files/Shifts/" + "Отчёт работы смены " +  shift.getShiftName() +
+                " с " + reportDay1 + " по " + reportDay2 + ".txt", true);
         BufferedWriter bf = new BufferedWriter(fw);
         int waterValue = 0;
         int hoursValue = 0;
         int expenditureValue = 0;
         ArrayList<LocalDate> date = shift.getDate();
-        while(!date.contains(localDate1) && localDate1.isBefore(date.get(date.size() - 1))){
-            localDate1.plusDays(1);
+        if(!date.contains(localDate1)){
+            while(!date.contains(localDate1) && localDate1.isBefore(date.get(date.size() - 1))){
+                localDate1 = localDate1.plusDays(1);
+            }
         }
-        while(!date.contains(localDate2) && localDate2.isAfter(localDate1)){
-            localDate2.minusDays(1);
+        if(!date.contains(localDate2)){
+            while(!date.contains(localDate2) && localDate2.isAfter(localDate1)){
+                localDate2 = localDate2.minusDays(1);
+            }
         }
-        if(!localDate1.isBefore(localDate2)){
+        if(!localDate1.isAfter(localDate2)){
             new ExceptionStage("В выбранном диапазоне дат смена не работала!");
             return false;
         }
-        int index1 = date.indexOf(reportDay1);
-        int index2 = date.indexOf(reportDay2);
+        int index1 = date.indexOf(localDate1);
+        int index2 = date.indexOf(localDate2);
         ArrayList<Integer> water = shift.getWater();
         ArrayList<Integer> hours = shift.getHours();
         ArrayList<Integer> expenditure = shift.getExpenditure();
@@ -172,7 +184,7 @@ public class ReportController implements Initializable {
             expenditureValue = expenditureValue + expenditure.get(a);
         }
         
-        bf.write("Отчёт работы ВВЧ с " + reportDay1 + "по " + reportDay2 + "\n" +
+        bf.write("Отчёт работы смены " + shift.getShiftName() + " с " + reportDay1 + " по " + reportDay2 + "\n" +
                 "Наработка по кубометрам составила " + waterValue + " метров кубических;\n" + 
                 "Наработка по часам составила " + hoursValue + " часов;\n" +
                 "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
