@@ -64,13 +64,11 @@ public class ReportController implements Initializable {
                 new Reader(d);
                 Shift[] shifts = new Shift[]{a, b ,c ,d};
                 reportWriter(shifts, localDate1, localDate2);
-                new SuccessStage("Отчёт успешно составлен!");
             }
             else{
                 Shift shift = new Shift(currentShiftName);
                 new Reader(shift);
                 shiftReportWriter(shift, localDate1, localDate2);
-                new SuccessStage("Отчёт успешно составлен!");
             }
         }
     }
@@ -119,7 +117,14 @@ public class ReportController implements Initializable {
                     localDate2 = localDate2.minusDays(1);
                 }
             }
-            if(!localDate1.isBefore(localDate2)){
+            if(!date.contains(localDate1) && !date.contains(localDate2)){
+                continue;
+            }
+            if(localDate1.isEqual(localDate2)){
+                int index = date.indexOf(localDate1);
+                waterValue = i.getWater().get(index);
+                hoursValue = i.getHours().get(index);
+                expenditureValue = i.getExpenditure().get(index); 
                 continue;
             }
             int index1 = date.indexOf(localDate1);
@@ -140,6 +145,7 @@ public class ReportController implements Initializable {
                 "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
         bf.close();
         fw.close();
+        new SuccessStage("Отчёт успешно составлен!");
         return true;
     }
     
@@ -169,9 +175,23 @@ public class ReportController implements Initializable {
                 localDate2 = localDate2.minusDays(1);
             }
         }
-        if(!localDate1.isAfter(localDate2)){
-            new ExceptionStage("В выбранном диапазоне дат смена не работала!");
-            return false;
+        if(!date.contains(localDate1) && !date.contains(localDate2)){
+           new ExceptionStage("В выбранном диапазоне дат смена не работала!");
+            return false; 
+        }
+        if(localDate1.isEqual(localDate2)){
+            int index = date.indexOf(localDate1);
+            waterValue = shift.getWater().get(index);
+            hoursValue = shift.getHours().get(index);
+            expenditureValue = shift.getExpenditure().get(index);
+            bf.write("Отчёт работы смены " + shift.getShiftName() + " с " + reportDay1 + " по " + reportDay2 + "\n" +
+                "Наработка по кубометрам составила " + waterValue + " метров кубических;\n" + 
+                "Наработка по часам составила " + hoursValue + " часов;\n" +
+                "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
+            bf.close();
+            fw.close();
+            new SuccessStage("Отчёт успешно составлен!");
+            return true;
         }
         int index1 = date.indexOf(localDate1);
         int index2 = date.indexOf(localDate2);
@@ -190,6 +210,7 @@ public class ReportController implements Initializable {
                 "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
         bf.close();
         fw.close();
+        new SuccessStage("Отчёт успешно составлен!");
         return true;
     }
 }

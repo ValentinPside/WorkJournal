@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="322.0" prefWidth="538.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="controllers.MainPageController">
+<AnchorPane id="AnchorPane" prefHeight="256.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainPageController">
     <children>
       <GridPane layoutY="6.0" prefHeight="313.0" prefWidth="535.0">
         <columnConstraints>
@@ -26,10 +26,11 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="75.0" prefWidth="160.0" text="Смена" textAlignment="JUSTIFY" />
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="82.0" prefWidth="325.0" text="Дата" GridPane.rowIndex="5" />
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="58.0" prefWidth="185.0" text="Дата" GridPane.rowIndex="5" />
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="133.0" prefWidth="357.0" text="Наработка (кубометры)" GridPane.rowIndex="2" />
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="63.0" prefWidth="160.0" text="Наработка (часы)" GridPane.rowIndex="3" />
             <DatePicker fx:id="todayDate" prefHeight="58.0" prefWidth="184.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
@@ -46,6 +47,7 @@
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="84.0" prefWidth="348.0" text="Уровень в баке" GridPane.rowIndex="4" />
             <TextField fx:id="cisternValue1" prefHeight="150.0" prefWidth="278.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="cisternValue2" prefHeight="86.0" prefWidth="239.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Button fx:id="reportBut" mnemonicParsing="false" onAction="#createReport" prefHeight="44.0" prefWidth="184.0" text="Сформировать очёт" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          </children>
       </GridPane>
    </children>

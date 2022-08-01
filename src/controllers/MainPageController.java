@@ -16,7 +16,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -56,13 +55,14 @@ public class MainPageController implements Initializable {
     
     @FXML
     private TextField cisternValue2;
-
+    
     @FXML
-    private Button saveBut;
+    private void createReport(javafx.event.ActionEvent event) throws Exception{
+        new ReportStage();
+    }
     
     @FXML
     private void saveShiftDate(javafx.event.ActionEvent event) throws Exception{
-        new ReportStage();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String today = dateFormat.format(date);
