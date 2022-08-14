@@ -82,18 +82,7 @@ public class MainPageController implements Initializable {
             Integer hourseValue = currentHoursValue2 - currentHoursValue1;
             Integer expenditure =  expenditure(currentCisternValue2, currentCisternValue1,
             currentWaterValue2, currentWaterValue1);
-            String record = "Дата = " + shiftDay + "; " + 
-                    currentshiftVariant + "; " +
-                    "Наработано кубометров = " + waterValue + "; " +
-                    "Наработано часов = " + hourseValue + "; " +
-                    "Выдано воды = " + expenditure + "; " +
-                    "Наработка кубометров на начало смены = " + currentWaterValue1 + "; " +
-                    "Наработка кубометров на конец смены = " + currentWaterValue2 + "; " + 
-                    "Наработка часов на начало смены = " + currentHoursValue1 + "; " +
-                    "Наработка часов на конец смены = " + currentHoursValue2 + "; " +
-                    "Уровень в баке на начало смены = " + currentCisternValue1 + "; " +
-                    "Уровень в баке на конец смены = " + currentCisternValue2 + "; " + "\n" + 
-                    shiftDay + "/" + waterValue + "/" + hourseValue + "/" + expenditure + "/" + "\n";
+            String record = shiftDay + "/" + waterValue + "/" + hourseValue + "/" + expenditure + "/" + "\n";
             new Writer(currentshiftName, record);
             new SuccessStage("Запись успешно сохранена");
         }
@@ -130,10 +119,10 @@ public class MainPageController implements Initializable {
         LocalDate localDate = todayDate.getValue();
         String shiftDay = String.valueOf(localDate);
         
-        /*if(!today.equals(shiftDay)){
+        if(!today.equals(shiftDay)){
             new ExceptionStage("Выбранная дата не совпадает с текущей!");
             return false;
-        }*/
+        }
         
         if(waterValue1.getText().replaceAll("[^\\d]", "").isEmpty() 
                 || waterValue2.getText().replaceAll("[^\\d]", "").isEmpty()){

@@ -20,6 +20,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
 import models.Shift;
 import models.resurces.Reader;
 import stages.ExceptionStage;
@@ -40,6 +41,9 @@ public class ReportController implements Initializable {
     
     @FXML
     private DatePicker date2;
+    
+    @FXML
+    private TextArea textArea;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -96,11 +100,11 @@ public class ReportController implements Initializable {
     private boolean reportWriter(Shift[] shifts, LocalDate localDate1, LocalDate localDate2) throws IOException {
         String reportDay1 = String.valueOf(localDate1);
         String reportDay2 = String.valueOf(localDate2);
-        File file = new File("C:/Program Files/Shifts/" + "Отчёт ВВЧ с " + reportDay1 + " по " + reportDay2 + ".txt");
+        File file = new File("C:/Users/user/Desktop" + "Отчёт ВВЧ с " + reportDay1 + " по " + reportDay2 + ".txt");
         if(!file.exists()){
             file.createNewFile();
         }
-        FileWriter fw = new FileWriter("C:/Program Files/Shifts/" + "Отчёт ВВЧ с " + reportDay1 + " по " + reportDay2 + ".txt", true);
+        FileWriter fw = new FileWriter("C:/Users/user/Desktop" + "Отчёт ВВЧ с " + reportDay1 + " по " + reportDay2 + ".txt", true);
         BufferedWriter bf = new BufferedWriter(fw);
         int waterValue = 0;
         int hoursValue = 0;
@@ -145,6 +149,10 @@ public class ReportController implements Initializable {
                 "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
         bf.close();
         fw.close();
+        textArea.appendText("Отчёт работы ВВЧ с " + reportDay1 + " по " + reportDay2 + "\n" +
+                "Наработка по кубометрам составила " + waterValue + " метров кубических;\n" + 
+                "Наработка по часам составила " + hoursValue + " часов;\n" +
+                "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
         new SuccessStage("Отчёт успешно составлен!");
         return true;
     }
@@ -210,6 +218,10 @@ public class ReportController implements Initializable {
                 "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
         bf.close();
         fw.close();
+        textArea.appendText("Отчёт работы смены " + shift.getShiftName() + " с " + reportDay1 + " по " + reportDay2 + "\n" +
+                "Наработка по кубометрам составила " + waterValue + " метров кубических;\n" + 
+                "Наработка по часам составила " + hoursValue + " часов;\n" +
+                "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
         new SuccessStage("Отчёт успешно составлен!");
         return true;
     }
