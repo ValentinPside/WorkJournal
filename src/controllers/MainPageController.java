@@ -69,7 +69,6 @@ public class MainPageController implements Initializable {
         if(checkShiftDate(shiftName, shiftVariant, todayDate, today, waterValue1, waterValue2, hoursValue1, hoursValue2,
         cisternValue1, cisternValue2)){
             String currentshiftName = shiftName.getValue();
-            String currentshiftVariant = shiftVariant.getValue();
             LocalDate localDate = todayDate.getValue();
             String shiftDay = String.valueOf(localDate);
             Integer currentWaterValue1 = Integer.parseInt(waterValue1.getText().replaceAll("[^\\d]", ""));
@@ -82,7 +81,7 @@ public class MainPageController implements Initializable {
             Integer hourseValue = currentHoursValue2 - currentHoursValue1;
             Integer expenditure =  expenditure(currentCisternValue2, currentCisternValue1,
             currentWaterValue2, currentWaterValue1);
-            String record = shiftDay + "/" + waterValue + "/" + hourseValue + "/" + expenditure + "/" + "\n";
+            String record = shiftDay + "/" + waterValue + "/" + hourseValue + "/" + expenditure + "\n";
             new Writer(currentshiftName, record);
             new SuccessStage("Запись успешно сохранена");
         }

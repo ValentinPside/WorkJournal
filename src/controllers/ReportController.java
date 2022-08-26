@@ -5,9 +5,6 @@
  */
 package controllers;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -100,12 +97,6 @@ public class ReportController implements Initializable {
     private boolean reportWriter(Shift[] shifts, LocalDate localDate1, LocalDate localDate2) throws IOException {
         String reportDay1 = String.valueOf(localDate1);
         String reportDay2 = String.valueOf(localDate2);
-        File file = new File("C:/Users/user/Desktop" + "Отчёт ВВЧ с " + reportDay1 + " по " + reportDay2 + ".txt");
-        if(!file.exists()){
-            file.createNewFile();
-        }
-        FileWriter fw = new FileWriter("C:/Users/user/Desktop" + "Отчёт ВВЧ с " + reportDay1 + " по " + reportDay2 + ".txt", true);
-        BufferedWriter bf = new BufferedWriter(fw);
         int waterValue = 0;
         int hoursValue = 0;
         int expenditureValue = 0;
@@ -143,13 +134,7 @@ public class ReportController implements Initializable {
                 expenditureValue = expenditureValue + expenditure.get(a);
             }
         }
-        bf.write("Отчёт работы ВВЧ с " + reportDay1 + " по " + reportDay2 + "\n" +
-                "Наработка по кубометрам составила " + waterValue + " метров кубических;\n" + 
-                "Наработка по часам составила " + hoursValue + " часов;\n" +
-                "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
-        bf.close();
-        fw.close();
-        textArea.appendText("Отчёт работы ВВЧ с " + reportDay1 + " по " + reportDay2 + "\n" +
+        textArea.setText("Отчёт работы ВВЧ с " + reportDay1 + " по " + reportDay2 + "\n" +
                 "Наработка по кубометрам составила " + waterValue + " метров кубических;\n" + 
                 "Наработка по часам составила " + hoursValue + " часов;\n" +
                 "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
@@ -161,14 +146,6 @@ public class ReportController implements Initializable {
         String reportDay1 = String.valueOf(localDate1);
         String reportDay2 = String.valueOf(localDate2);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        File file = new File("C:/Program Files/Shifts/" + "Отчёт работы смены " +  shift.getShiftName() +
-                " с " + reportDay1 + " по " + reportDay2 + ".txt");
-        if(!file.exists()){
-            file.createNewFile();
-        }
-        FileWriter fw = new FileWriter("C:/Program Files/Shifts/" + "Отчёт работы смены " +  shift.getShiftName() +
-                " с " + reportDay1 + " по " + reportDay2 + ".txt", true);
-        BufferedWriter bf = new BufferedWriter(fw);
         int waterValue = 0;
         int hoursValue = 0;
         int expenditureValue = 0;
@@ -192,12 +169,6 @@ public class ReportController implements Initializable {
             waterValue = shift.getWater().get(index);
             hoursValue = shift.getHours().get(index);
             expenditureValue = shift.getExpenditure().get(index);
-            bf.write("Отчёт работы смены " + shift.getShiftName() + " с " + reportDay1 + " по " + reportDay2 + "\n" +
-                "Наработка по кубометрам составила " + waterValue + " метров кубических;\n" + 
-                "Наработка по часам составила " + hoursValue + " часов;\n" +
-                "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
-            bf.close();
-            fw.close();
             new SuccessStage("Отчёт успешно составлен!");
             return true;
         }
@@ -211,14 +182,7 @@ public class ReportController implements Initializable {
             hoursValue = hoursValue + hours.get(a);
             expenditureValue = expenditureValue + expenditure.get(a);
         }
-        
-        bf.write("Отчёт работы смены " + shift.getShiftName() + " с " + reportDay1 + " по " + reportDay2 + "\n" +
-                "Наработка по кубометрам составила " + waterValue + " метров кубических;\n" + 
-                "Наработка по часам составила " + hoursValue + " часов;\n" +
-                "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
-        bf.close();
-        fw.close();
-        textArea.appendText("Отчёт работы смены " + shift.getShiftName() + " с " + reportDay1 + " по " + reportDay2 + "\n" +
+        textArea.setText("Отчёт работы смены " + shift.getShiftName() + " с " + reportDay1 + " по " + reportDay2 + "\n" +
                 "Наработка по кубометрам составила " + waterValue + " метров кубических;\n" + 
                 "Наработка по часам составила " + hoursValue + " часов;\n" +
                 "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
