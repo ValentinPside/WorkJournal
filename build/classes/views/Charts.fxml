@@ -19,8 +19,8 @@
           <NumberAxis label="Кубометры" minorTickCount="1" minorTickLength="1.0" side="LEFT" tickLength="2.0" tickUnit="1.0" upperBound="45.0" />
         </yAxis>
       </LineChart>
-      <DatePicker layoutX="190.0" layoutY="40.0" />
-      <DatePicker layoutX="378.0" layoutY="40.0" />
+      <DatePicker fx:id="startDate" layoutX="190.0" layoutY="40.0" />
+      <DatePicker fx:id="endDate" layoutX="378.0" layoutY="40.0" />
       <Label alignment="CENTER" layoutX="62.0" layoutY="16.0" prefHeight="15.0" prefWidth="66.0" text="Смена" />
       <Label alignment="CENTER" layoutX="277.0" layoutY="12.0" prefHeight="25.0" prefWidth="174.0" text="Временной интервал" />
       <ComboBox fx:id="shiftName" layoutX="62.0" layoutY="38.0" prefHeight="25.0" prefWidth="66.0" />

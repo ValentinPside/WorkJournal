@@ -21,6 +21,7 @@ import javafx.scene.control.DatePicker;
 import models.Shift;
 import models.resurces.Reader;
 import stages.ExceptionStage;
+import stages.SuccessStage;
 
 /**
  * FXML Controller class
@@ -57,11 +58,46 @@ public class ChartsController implements Initializable {
             series1.setName("Смена " + shift);
             ArrayList<LocalDate> date = shiftData.getDate();
             ArrayList<Integer> water = shiftData.getWater();
-            for(int i = 0; i < date.size(); i++){
-                series1.getData().add(new XYChart.Data(date.get(i).toString(), water.get(i)));
+            LocalDate localDate1 = startDate.getValue();
+            LocalDate localDate2 = endDate.getValue();
+            if(createNewChart(series1, localDate1, localDate2, date, water)){
+                new SuccessStage("График успешно построен!");
             }
-            chart.getData().add(series1);
         }
+    }
+    
+    private boolean createNewChart(XYChart.Series series1, LocalDate localDate1, LocalDate localDate2,
+            ArrayList<LocalDate> date, ArrayList<Integer> water) throws IOException{
+        if(!date.contains(localDate1)){
+                    while(!date.contains(localDate1) && localDate1.isBefore(date.get(date.size() - 1))){
+                    localDate1 = localDate1.plusDays(1);
+                }
+            }
+            if(!date.contains(localDate2)){
+                while(!date.contains(localDate2) && localDate2.isAfter(localDate1)){
+                    localDate2 = localDate2.minusDays(1);
+                }
+            }
+            if(!date.contains(localDate1) && !date.contains(localDate2)){
+                new ExceptionStage("В выбранном диапазоне дат смена не работала!");
+                return false;
+            }
+            if(localDate1.isEqual(localDate2)){
+                int index = date.indexOf(localDate1);
+                series1.getData().add(new XYChart.Data(date.get(index).toString(), water.get(index)));
+                new ExceptionStage("В выбранном диапазоне дат смена работала одну смену!");
+                return false;
+            }
+            else{
+                int index1 = date.indexOf(localDate1);
+                int index2 = date.indexOf(localDate2);
+                for(int i = index1; i <= index2; i++){
+                    series1.getData().add(new XYChart.Data(date.get(i).toString(), water.get(i)));
+                }
+            }
+            chart.getData().clear();
+            chart.getData().add(series1);
+            return true;
     }
     
     private boolean checkShiftDate() throws IOException{
@@ -75,7 +111,7 @@ public class ChartsController implements Initializable {
             return false;
         }
         
-        if(startDate.getValue().isAfter(endDate.getValue())){
+        if((startDate.getValue()).isAfter(endDate.getValue())){
             new ExceptionStage("Даты выбраны неверно!");
             return false;
         }
