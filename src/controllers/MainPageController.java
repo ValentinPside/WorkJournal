@@ -20,9 +20,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import models.resurces.Writer;
-import stages.ChartsStage;
 import stages.ExceptionStage;
-import stages.ReportStage;
 import stages.SuccessStage;
 
 /**
@@ -56,16 +54,6 @@ public class MainPageController implements Initializable {
     
     @FXML
     private TextField cisternValue2;
-    
-    @FXML
-    private void createReport(javafx.event.ActionEvent event) throws Exception{
-        new ReportStage();
-    }
-    
-    @FXML
-    private void openCharts(javafx.event.ActionEvent event) throws Exception{
-        new ChartsStage();
-    }
     
     @FXML
     private void saveShiftDate(javafx.event.ActionEvent event) throws Exception{

@@ -22,7 +22,7 @@ public class ReportStage {
         Parent root = FXMLLoader.load(getClass().getResource("/views/Report.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("ВВЧ демо");
+        stage.setTitle("Панель формирования отчётов");
         stage.setScene(scene);
         stage.show();
     }

@@ -25,7 +25,7 @@ public class SuccessStage {
         stage.setWidth(300);
         stage.setHeight(150);
         stage.setScene(scene);
-        stage.setTitle("ВВЧ демо");
+        stage.setTitle("Успех");
         stage.setScene(scene);
         stage.show();
     }

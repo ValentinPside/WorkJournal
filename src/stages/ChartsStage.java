@@ -22,7 +22,7 @@ public class ChartsStage {
         Parent root = FXMLLoader.load(getClass().getResource("/views/Charts.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("ВВЧ демо");
+        stage.setTitle("Панель формирования графиков");
         stage.setScene(scene);
         stage.show();
     }
