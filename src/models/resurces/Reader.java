@@ -32,9 +32,6 @@ public class Reader {
         while(line != null){
             if(!line.contains("Дата")){
                 String[] values = line.split("/");
-                for(String i : values){
-                    System.out.println(i);
-                }
                 LocalDate ld = LocalDate.parse(values[0], dtf);
                 ArrayList b = shift.getDate();
                 b.add(ld);

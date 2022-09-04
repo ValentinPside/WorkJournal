@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import stages.ChartsStage;
+import stages.ChemistryStage;
 import stages.MainPageStage;
 import stages.ReportStage;
 
@@ -32,7 +33,7 @@ public class MainMenuController implements Initializable {
     
     @FXML
     private void openChemisrtyRecord(javafx.event.ActionEvent event) throws Exception{
-        
+        new ChemistryStage();
     }
     
     @FXML

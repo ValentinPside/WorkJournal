@@ -8,7 +8,6 @@ package controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -97,31 +96,41 @@ public class ReportController implements Initializable {
     private boolean reportWriter(Shift[] shifts, LocalDate localDate1, LocalDate localDate2) throws IOException {
         String reportDay1 = String.valueOf(localDate1);
         String reportDay2 = String.valueOf(localDate2);
+        LocalDate originalLocalDate1 = localDate1;
+        LocalDate originalLocalDate2 = localDate2;
         int waterValue = 0;
         int hoursValue = 0;
         int expenditureValue = 0;
         for(Shift i : shifts){
+            
             ArrayList<LocalDate> date = i.getDate();
+            localDate1 = originalLocalDate1;
+            localDate2 = originalLocalDate2;
+            
             if(!date.contains(localDate1)){
                 while(!date.contains(localDate1) && localDate1.isBefore(date.get(date.size() - 1))){
                     localDate1 = localDate1.plusDays(1);
                 }
             }
+            
             if(!date.contains(localDate2)){
                 while(!date.contains(localDate2) && localDate2.isAfter(localDate1)){
                     localDate2 = localDate2.minusDays(1);
                 }
             }
+            
             if(!date.contains(localDate1) && !date.contains(localDate2)){
                 continue;
             }
+            
             if(localDate1.isEqual(localDate2)){
                 int index = date.indexOf(localDate1);
-                waterValue = i.getWater().get(index);
-                hoursValue = i.getHours().get(index);
-                expenditureValue = i.getExpenditure().get(index); 
+                waterValue = waterValue + i.getWater().get(index);
+                hoursValue = hoursValue + i.getHours().get(index);
+                expenditureValue = expenditureValue + i.getExpenditure().get(index); 
                 continue;
             }
+            
             int index1 = date.indexOf(localDate1);
             int index2 = date.indexOf(localDate2);
 
@@ -145,7 +154,6 @@ public class ReportController implements Initializable {
     private boolean shiftReportWriter(Shift shift, LocalDate localDate1, LocalDate localDate2) throws IOException {
         String reportDay1 = String.valueOf(localDate1);
         String reportDay2 = String.valueOf(localDate2);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         int waterValue = 0;
         int hoursValue = 0;
         int expenditureValue = 0;
@@ -169,6 +177,10 @@ public class ReportController implements Initializable {
             waterValue = shift.getWater().get(index);
             hoursValue = shift.getHours().get(index);
             expenditureValue = shift.getExpenditure().get(index);
+            textArea.setText("Отчёт работы смены " + shift.getShiftName() + " с " + reportDay1 + " по " + reportDay2 + "\n" +
+                "Наработка по кубометрам составила " + waterValue + " метров кубических;\n" + 
+                "Наработка по часам составила " + hoursValue + " часов;\n" +
+                "Выдача составила порядка " + expenditureValue + " метров кубических;\n");
             new SuccessStage("Отчёт успешно составлен!");
             return true;
         }
