@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import stages.ChartsStage;
 import stages.ChemistryStage;
 import stages.MainPageStage;
+import stages.MaintenanceStage;
 import stages.ReportStage;
 
 /**
@@ -38,7 +39,7 @@ public class MainMenuController implements Initializable {
     
     @FXML
     private void openMaintenanceRecord(javafx.event.ActionEvent event) throws Exception{
-        
+        new MaintenanceStage();
     }
     
     @FXML

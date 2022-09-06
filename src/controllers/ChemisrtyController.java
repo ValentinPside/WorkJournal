@@ -49,8 +49,8 @@ public class ChemisrtyController implements Initializable {
 
     @FXML
     private void createReport(javafx.event.ActionEvent event) throws Exception{
-        int bisulfite = getBisulfite();
-        int sodium = getSodium();
+        double bisulfite = getBisulfite();
+        double sodium = getSodium();
         String text = "Запасы бисульфита составляют " + bisulfite + "кг\n" +
                 "Запасы едкого натра составляют " + sodium + "кг";
         new ChemistryReportStage(text);
@@ -63,9 +63,10 @@ public class ChemisrtyController implements Initializable {
             String shiftVariant = shiftType.getValue();
             String chemistryType = chemistry.getValue();
             LocalDate localDate = date.getValue();
-            Integer chemistryValue = Integer.parseInt(value.getText().replaceAll("[^\\d]", ""));
-            int bisulfite = getBisulfite();
-            int sodium = getSodium();
+            String preChemistry = value.getText().replaceAll(",", ".");
+            Double chemistryValue = Double.parseDouble(preChemistry.replaceAll("[^.0-9]", ""));
+            double bisulfite = getBisulfite();
+            double sodium = getSodium();
             writer(shiftName, shiftVariant, localDate,
             chemistryType, chemistryValue);
             updateChemistry(bisulfite, sodium, chemistryType, chemistryValue);
@@ -73,7 +74,7 @@ public class ChemisrtyController implements Initializable {
         }
     }
     
-    private int getBisulfite() throws IOException {
+    private double getBisulfite() throws IOException {
         File file = new File("C:/Program Files/Shifts/Chemistry.txt");
         if(!file.exists()){
             new ExceptionStage("Файл хранения текущих запасов\n химических реагентов не найден");
@@ -83,12 +84,13 @@ public class ChemisrtyController implements Initializable {
         String line = "";
         line = br.readLine();
         String[] values = line.split("/");
-        int bisulfite = Integer.parseInt(values[1]);
+        String val = values[1].replaceAll(",", ".");
+        double bisulfite = Double.parseDouble(val);
         br.close();
         fr.close();
         return bisulfite;
     }
-    private int getSodium() throws IOException {
+    private double getSodium() throws IOException {
         File file = new File("C:/Program Files/Shifts/Chemistry.txt");
         if(!file.exists()){
             new ExceptionStage("Файл хранения текущих запасов\n химических реагентов не найден");
@@ -99,7 +101,8 @@ public class ChemisrtyController implements Initializable {
         line = br.readLine();
         line = br.readLine();
         String[] values = line.split("/");
-        int sodium = Integer.parseInt(values[1]);
+        String val = values[1].replaceAll(",", ".");
+        double sodium = Double.parseDouble(val);
         line = br.readLine();
         br.close();
         fr.close();
@@ -107,7 +110,7 @@ public class ChemisrtyController implements Initializable {
     }
     
     private void writer(String shiftName, String shiftVariant, LocalDate localDate,
-            String chemistryType, Integer chemistryValue) throws IOException {
+            String chemistryType, Double chemistryValue) throws IOException {
         String variant = "";
         if(shiftVariant.equals("Дневная смена")){
            variant = "d";
@@ -128,8 +131,8 @@ public class ChemisrtyController implements Initializable {
         fw.close();
     }
     
-    private void updateChemistry(int bisulfite, int sodium, String chemistryType, 
-            Integer chemistryValue) throws IOException{
+    private void updateChemistry(double bisulfite, double sodium, String chemistryType, 
+            Double chemistryValue) throws IOException{
         if(chemistryType.equals("Бисульфит")){
            bisulfite = bisulfite - chemistryValue;
         } else{

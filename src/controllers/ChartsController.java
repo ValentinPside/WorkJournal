@@ -21,7 +21,6 @@ import javafx.scene.control.DatePicker;
 import models.Shift;
 import models.resurces.Reader;
 import stages.ExceptionStage;
-import stages.SuccessStage;
 
 /**
  * FXML Controller class
@@ -60,9 +59,7 @@ public class ChartsController implements Initializable {
             ArrayList<Integer> water = shiftData.getWater();
             LocalDate localDate1 = startDate.getValue();
             LocalDate localDate2 = endDate.getValue();
-            if(createNewChart(series1, localDate1, localDate2, date, water)){
-                new SuccessStage("График успешно построен!");
-            }
+            createNewChart(series1, localDate1, localDate2, date, water);
         }
     }
     
